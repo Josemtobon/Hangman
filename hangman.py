@@ -1,85 +1,24 @@
-import requests
+"""
+Starts hangman game.
+"""
 
-def get_word():
-    """
-    Obtain a random word with Random-Words-API
-    https://github.com/mcnaveen/Random-Words-API
-    """
-    response = requests.get("https://random-word-api.herokuapp.com/word")
-    if response.status_code == 200:
-        word = response.json()[0]
-        return word
-    else:
-        print("Was not possible get a word")
+import funcs
 
-def print_underscores(word):
-    pass
+word = funcs.get_word()
+underscores = funcs.word_underscores(word)
+state = 0
 
+while underscores != word and state < 6:
+    funcs.show_hangman(state)
+    print(underscores)
+    attempt = input("Make a try: ")
+    state = funcs.update_state(word, attempt, state)
+    underscores = funcs.update_underscores(word, attempt, underscores)
 
-def show_hangman():
-    states = [
-        """
-           ------
-           |    |
-           |
-           |
-           |
-           |
-        =========
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |
-           |
-           |
-        =========
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |    |
-           |
-           |
-        =========
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |   /|
-           |
-           |
-        =========
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |   /|\\
-           |
-           |
-        =========
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |   /|\\
-           |   /
-           |
-        =========
-        """,
-        """
-           ------
-           |    |
-           |    O
-           |   /|\\
-           |   / \\
-           |
-        =========
-        """
-    ]
-    print(states[-1])
+if state == 6:
+    funcs.show_hangman(state)
+    print("\nYou die!!!")
+else:
+    funcs.show_hangman(state)
+    print(underscores)
+    print("\nYou win!")
