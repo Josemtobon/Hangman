@@ -56,35 +56,39 @@ def word_underscores(word):
     return underscores
 
 
-def update_underscores(word, attempt, underscores):
+def update_underscores(word, attempt, underscores, state):
     """
     Replace underscores by coincidences.
     """
     lower_word = word.lower()
     lower_attempt = attempt.lower()
-
+    attempt_length = len(attempt)
     underscores_list = list(underscores)
+    state_list = []
 
     for i, c in enumerate(lower_word):
-        if c in lower_attempt:
-            underscores_list[i] = c
+        if attempt_length == 1:
+            if c in lower_attempt:
+                underscores_list[i] = c
+                state_list.append(True)
+            else:
+                state_list.append(False)
+        elif attempt_length == len(word):
+            if c == lower_attempt[i]:
+                underscores_list[i] = c
+                state_list.append(True)
+            else:
+                state_list.append(False)
+
+    if not any(state_list):
+        state += 1
 
     if underscores_list[0] != "_":
         underscores_list[0] = underscores_list[0].upper()
 
     new_underscores = ''.join(underscores_list)
 
-    return new_underscores
-
-
-def update_state(word, attempt, state=0):
-    """
-    Update state.
-    """
-    if not any(c in word for c in attempt):
-        state += 1
-
-    return state
+    return new_underscores, state
 
 
 def show_hangman(state):
