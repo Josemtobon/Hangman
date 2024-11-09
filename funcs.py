@@ -56,6 +56,20 @@ def word_underscores(word):
     return underscores
 
 
+def same_attempt(attempt, underscores):
+    """
+    Although attempt has coincidences with the word, it can not has
+    discovered letters.
+    """
+    lower_underscores = underscores.lower()
+    lower_attempt = attempt.lower()
+
+    if len(attempt) > 1:
+        return any(lower_underscores[i] == c for i, c in enumerate(lower_attempt))
+
+    return False
+
+
 def update_underscores(word, attempt, underscores, state):
     """
     Replace underscores by coincidences.
@@ -80,13 +94,13 @@ def update_underscores(word, attempt, underscores, state):
             else:
                 state_list.append(False)
 
-    if not any(state_list):
-        state += 1
-
     if underscores_list[0] != "_":
         underscores_list[0] = underscores_list[0].upper()
 
     new_underscores = ''.join(underscores_list)
+
+    if (same_attempt(attempt, underscores) and underscores == new_underscores) or not any(state_list):
+        state += 1
 
     return new_underscores, state
 
@@ -96,6 +110,15 @@ def show_hangman(state):
     Prints hangman on each try.
     """
     states = [
+         """
+           ------
+           |
+           |
+           |
+           |
+           |
+        =========
+        """,
         """
            ------
            |    |
