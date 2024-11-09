@@ -10,20 +10,18 @@ word = funcs.get_word()
 underscores = funcs.word_underscores(word)
 state = 0
 
-while underscores != word and state < 6:
-    funcs.show_hangman(state)
-    print(underscores)
-    attempt = input("Make a try: ")
-    while len(attempt) != len(word) and len(attempt) != 1:
-        os.system("clear")
+while underscores != word and state < 7:
+    while True:
         funcs.show_hangman(state)
-        print("You can only use words of the same lengt as the real word or letters.")
         print(underscores)
-        attempt = input("Try again: ")
+        attempt = input("Make a try: ")
+        os.system('clear')
+        if len(attempt) == len(word) or len(attempt) == 1:
+            break
     underscores, state = funcs.update_underscores(word, attempt, underscores, state)
     os.system('clear')
 
-if state == 6:
+if state == 7:
     funcs.show_hangman(state)
     print(word)
     print("\nYou die!!!")
