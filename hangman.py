@@ -13,8 +13,8 @@ state = 0
 while underscores != word and state < 7:
     while True:
         funcs.show_hangman(state)
-        print(underscores)
-        attempt = input("Make a try: ")
+        print("        " + underscores)
+        attempt = input("\nMake a try: ")
         os.system('clear')
         if len(attempt) == len(word) or len(attempt) == 1:
             break
@@ -23,9 +23,9 @@ while underscores != word and state < 7:
 
 if state == 7:
     funcs.show_hangman(state)
-    print(word)
+    print("        " + word)
     print("\nYou die!!!")
 else:
     funcs.show_hangman(state)
-    print(underscores)
-    print("\nYou win!")
+    print("        " + underscores)
+    print("\nYou win!!!")
